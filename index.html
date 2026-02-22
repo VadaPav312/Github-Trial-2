@@ -24,12 +24,6 @@
             display: flex; flex-direction: column;
         }
 
-        body::before {
-            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% 50%, rgba(45, 106, 79, 0.3) 0%, transparent 70%);
-            z-index: -1;
-        }
-
         .main-title {
             text-align: center; font-family: 'Michroma', sans-serif;
             font-size: clamp(1.5rem, 5vw, 2.5rem); margin: 40px 0;
@@ -42,88 +36,131 @@
 
         .nav-button {
             padding: 12px 24px; background: var(--glass-bg); backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px); border: 1px solid var(--glass-border);
-            border-radius: 50px; color: white; text-decoration: none;
-            font-family: 'Michroma', sans-serif; font-size: 0.75rem; letter-spacing: 1px; transition: all 0.3s ease;
+            border: 1px solid var(--glass-border); border-radius: 50px; color: white; 
+            text-decoration: none; font-family: 'Michroma', sans-serif; font-size: 0.75rem; transition: all 0.3s ease;
         }
 
         .nav-button:hover { transform: translateY(-5px); background: rgba(255, 255, 255, 0.2); border-color: var(--accent-lime); }
 
-        .content-wrapper { flex-grow: 1; display: flex; align-items: center; justify-content: center; padding: 40px 20px; position: relative; gap: 50px; margin-top: -60px; }
+        .content-wrapper { flex-grow: 1; display: flex; align-items: center; justify-content: center; padding: 40px 20px; gap: 50px; }
 
-        .side-tree { height: 400px; width: auto; filter: drop-shadow(0 0 20px rgba(149, 213, 178, 0.4)); z-index: 1; user-select: none; pointer-events: none; }
+        .side-tree { height: 400px; filter: drop-shadow(0 0 20px rgba(149, 213, 178, 0.4)); }
 
-        .quote-box {
-            max-width: 500px; padding: 50px; background: rgba(0, 0, 0, 0.2); backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px); border-radius: 40px; border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4); text-align: center; animation: float-box 6s ease-in-out infinite; z-index: 5;
+        /* CHAT BOX STYLING */
+        .chat-container {
+            width: 100%; max-width: 500px; background: rgba(0, 0, 0, 0.3); 
+            backdrop-filter: blur(15px); border-radius: 30px; border: 1px solid var(--glass-border);
+            padding: 20px; display: flex; flex-direction: column; gap: 15px;
         }
 
-        .quote-text { font-family: 'Playfair Display', serif; font-size: clamp(1rem, 2.5vw, 1.3rem); line-height: 1.7; color: #f1f3f5; font-style: italic; margin: 0; }
+        #chat-display {
+            height: 250px; overflow-y: auto; padding: 10px;
+            font-size: 0.9rem; border-bottom: 1px solid var(--glass-border);
+        }
 
-        .leaf { position: absolute; width: 12px; height: 12px; background: var(--accent-lime); border-radius: 0 100%; opacity: 0.6; pointer-events: none; z-index: 2; animation: leaf-fall linear forwards; }
+        .input-group { display: flex; gap: 10px; }
 
-        @keyframes float-box { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-25px); } }
+        input {
+            flex-grow: 1; background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border);
+            border-radius: 20px; padding: 10px 15px; color: white; outline: none;
+        }
+
+        .send-btn {
+            background: var(--primary-green); border: none; color: white;
+            padding: 10px 20px; border-radius: 20px; cursor: pointer; font-family: 'Michroma';
+        }
+
+        .leaf { position: absolute; width: 12px; height: 12px; background: var(--accent-lime); border-radius: 0 100%; animation: leaf-fall linear forwards; }
+
         @keyframes leaf-fall { 0% { transform: translate(0, 0) rotate(0deg); opacity: 0; } 10% { opacity: 0.6; } 100% { transform: translate(var(--x-move), 600px) rotate(720deg); opacity: 0; } }
 
-        .wave-footer { width: 100%; height: 80px; background: var(--ocean-blue); position: relative; margin-top: auto; }
-        .waves { position: absolute; top: -80px; width: 100%; height: 80px; min-height: 80px; }
-        .parallax > use { animation: move-forever 25s cubic-bezier(.55,.5,.45,.5) infinite; }
-        .parallax > use:nth-child(1) { animation-delay: -2s; animation-duration: 7s; }
-        .parallax > use:nth-child(2) { animation-delay: -3s; animation-duration: 10s; }
-        .parallax > use:nth-child(3) { animation-delay: -4s; animation-duration: 13s; }
-        .parallax > use:nth-child(4) { animation-delay: -5s; animation-duration: 20s; }
-        @keyframes move-forever { 0% { transform: translate3d(-90px,0,0); } 100% { transform: translate3d(85px,0,0); } }
-
-        @media (max-width: 1000px) { .content-wrapper { flex-direction: column; gap: 20px; } .side-tree { height: 200px; } }
+        .wave-footer { width: 100%; height: 80px; background: var(--ocean-blue); position: relative; }
+        .waves { position: absolute; top: -80px; width: 100%; height: 80px; }
     </style>
 </head>
 <body>
     <h1 class="main-title">Nature Conservation Decision Maker</h1>
+    
     <nav class="nav-container">
-        <a href="map.html" class="nav-button">WORLD MAP</a>
-        <a href="invasivespecies.html" class="nav-button">INVASIVE SPECIES</a>
-        <a href="action.html" class="nav-button">WHAT CAN I DO?</a>
-        <a href="climate.html" class="nav-button">CLIMATE CHANGE</a>
-        <a href="ecofootprint.html" class="nav-button">PRODUCT AUTOPSY</a>
+        <a href="#" class="nav-button">WORLD MAP</a>
+        <a href="#" class="nav-button">INVASIVE SPECIES</a>
+        <a href="#" class="nav-button">WHAT CAN I DO?</a>
     </nav>
-    <main class="content-wrapper" id="main-area">
+
+    <main class="content-wrapper">
         <img src="https://cdn.pixabay.com/photo/2014/12/22/00/07/tree-576847_1280.png" alt="Tree" class="side-tree" id="tree-l">
-        <div class="quote-box">
-            <p class="quote-text">
-                "The greatest threat to our planet is the belief that someone else will save it," once said Robert Swan. This profound truth transforms environmentalism from a global problem into an urgent personal calling. We are here to bridge the gap between passive hope and active power. We are here to protect Earth!
-            </p>
+        
+        <div class="chat-container">
+            <p style="font-style: italic; font-size: 0.8rem; text-align: center;">"The greatest threat to our planet is the belief that someone else will save it."</p>
+            <div id="chat-display">AI: How can I help you protect the environment today?</div>
+            <div class="input-group">
+                <input type="text" id="user-input" placeholder="Ask about conservation...">
+                <button class="send-btn" onclick="askAI()">SEND</button>
+            </div>
         </div>
+
         <img src="https://cdn.pixabay.com/photo/2014/12/22/00/07/tree-576847_1280.png" alt="Tree" class="side-tree" id="tree-r">
     </main>
+
     <footer class="wave-footer">
-        <svg class="waves" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <svg class="waves" viewBox="0 24 150 28" preserveAspectRatio="none">
             <defs><path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" /></defs>
             <g class="parallax">
-                <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(0,119,182,0.7)" />
-                <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(0,119,182,0.5)" />
-                <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(0,119,182,0.3)" />
                 <use xlink:href="#gentle-wave" x="48" y="7" fill="#0077b6" />
             </g>
         </svg>
     </footer>
+
     <script>
+        // LEAF ANIMATION
         const treeL = document.getElementById('tree-l');
         const treeR = document.getElementById('tree-r');
         function spawnLeaf(treeElement) {
             const leaf = document.createElement('div');
             leaf.className = 'leaf';
             const rect = treeElement.getBoundingClientRect();
-            const startX = rect.left + (Math.random() * rect.width);
-            const startY = rect.top + (Math.random() * (rect.height / 2));
-            leaf.style.left = startX + 'px'; leaf.style.top = startY + 'px';
-            const xMove = (Math.random() - 0.5) * 200;
-            leaf.style.setProperty('--x-move', `${xMove}px`);
-            leaf.style.animationDuration = (Math.random() * 4 + 4) + 's';
+            leaf.style.left = (rect.left + Math.random() * rect.width) + 'px';
+            leaf.style.top = (rect.top + Math.random() * (rect.height / 2)) + 'px';
+            leaf.style.setProperty('--x-move', `${(Math.random() - 0.5) * 200}px`);
             document.body.appendChild(leaf);
-            setTimeout(() => { leaf.remove(); }, 8000);
+            setTimeout(() => leaf.remove(), 8000);
         }
-        setInterval(() => { spawnLeaf(treeL); spawnLeaf(treeR); }, 800);
+        setInterval(() => { spawnLeaf(treeL); spawnLeaf(treeR); }, 1000);
+
+        // API CALL LOGIC (Fixes "Error Syncing Data")
+        async function askAI() {
+            const inputField = document.getElementById('user-input');
+            const display = document.getElementById('chat-display');
+            const userText = inputField.value;
+            if (!userText) return;
+
+            display.innerHTML += `<br><b>You:</b> ${userText}`;
+            inputField.value = "";
+
+            try {
+                // We use the relative path "/api/chat" so it works on Render
+                const response = await fetch("/api/chat", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        messages: [{ role: "user", content: userText }]
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.choices && data.choices[0]) {
+                    const aiReply = data.choices[0].message.content;
+                    display.innerHTML += `<br><b>AI:</b> ${aiReply}`;
+                } else {
+                    display.innerHTML += `<br><span style="color:red">Error: AI unreachable. Check Render Environment Variables!</span>`;
+                }
+            } catch (err) {
+                display.innerHTML += `<br><span style="color:red">Error syncing data.</span>`;
+                console.error(err);
+            }
+            display.scrollTop = display.scrollHeight;
+        }
     </script>
 </body>
 </html>
